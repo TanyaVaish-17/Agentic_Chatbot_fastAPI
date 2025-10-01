@@ -7,6 +7,8 @@ name = "pypi"
 langchain-groq = "*"
 langchain-openai = "*"
 langchain-community = "*"
+langgraph = "*"
+langchain-tavily = "*"
 
 [dev-packages]
 
