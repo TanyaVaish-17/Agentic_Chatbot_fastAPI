@@ -12,6 +12,7 @@ langchain-tavily = "*"
 pydantic = "*"
 fastapi = "*"
 uvicorn = "*"
+streamlit = "*"
 
 [dev-packages]
 
