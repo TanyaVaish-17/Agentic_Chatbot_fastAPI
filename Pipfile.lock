@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "09ecee6aac258bb09a3ef143eaa4d487ce997f22e622adbf8c175f1e55d6ba36"
+            "sha256": "66c8ba3ed4ea5caf71354c2e6ced03808d2abb371ba1861d91cbfde7cbf9a83d"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -264,6 +264,15 @@
             ],
             "markers": "python_version >= '3.6'",
             "version": "==1.9.0"
+        },
+        "fastapi": {
+            "hashes": [
+                "sha256:5e81654d98c4d2f53790a7d32d25a7353b30c81441be7d0958a26b5d761fa1c8",
+                "sha256:705137a61e2ef71019d2445b123aa8845bd97273c395b744d5a7dfe559056855"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.8'",
+            "version": "==0.118.0"
         },
         "frozenlist": {
             "hashes": [
@@ -898,11 +907,11 @@
         },
         "openai": {
             "hashes": [
-                "sha256:6b9513b485f856b0be6bc44c518831acb58e37a12bed72fcc52b1177d1fb34a8",
-                "sha256:a79f493651f9843a6c54789a83f3b2db56df0e1770f7dcbe98bcf0e967ee2148"
+                "sha256:f0671423666cfd24c15010fd4732738f89f1b6d4f21c47f5c82db411cc2648d5",
+                "sha256:ff00c0f6f75fb04f5696bfddf52b6280f9bc2157cfc45cce011af00d8dd385e1"
             ],
             "markers": "python_version >= '3.8'",
-            "version": "==2.0.0"
+            "version": "==2.0.1"
         },
         "orjson": {
             "hashes": [
@@ -1157,6 +1166,7 @@
                 "sha256:6b8ffda597a14812a7975c90b82a8a2e777d9257aba3453f973acd3c032a18e2",
                 "sha256:c42dd626f5cfc1c6950ce6205ea58c93efa406da65f479dcb4029d5934857da2"
             ],
+            "index": "pypi",
             "markers": "python_version >= '3.9'",
             "version": "==2.11.9"
         },
@@ -1567,6 +1577,14 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==2.0.43"
+        },
+        "starlette": {
+            "hashes": [
+                "sha256:0764ca97b097582558ecb498132ed0c7d942f233f365b86ba37770e026510659",
+                "sha256:7e8cee469a8ab2352911528110ce9088fdc6a37d9876926e73da7ce4aa4c7a46"
+            ],
+            "markers": "python_version >= '3.9'",
+            "version": "==0.48.0"
         },
         "tenacity": {
             "hashes": [

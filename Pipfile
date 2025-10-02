@@ -9,6 +9,8 @@ langchain-openai = "*"
 langchain-community = "*"
 langgraph = "*"
 langchain-tavily = "*"
+pydantic = "*"
+fastapi = "*"
 
 [dev-packages]
 
