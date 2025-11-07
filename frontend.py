@@ -156,7 +156,7 @@ with col2:
 # --- Response Display ---
 if ask_button:
     if user_query.strip():
-        API_URL = "http://127.0.0.1:9999/chat"
+        API_URL = "https://agentic-chatbot-fastapi-k9jt.onrender.com/chat"
         payload = {
             "model_name": selected_model,
             "model_provider": provider,
