@@ -1,5 +1,8 @@
 # phase 1:
 
+from dotenv import load_dotenv
+load_dotenv()
+
 # 1. setup api keys for Groq and Tavily
 
 import os
