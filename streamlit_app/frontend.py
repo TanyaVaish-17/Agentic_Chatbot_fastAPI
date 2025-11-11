@@ -1,25 +1,52 @@
 import streamlit as st
 import requests
+from datetime import datetime
+import json
 
-# --- Page Setup ---
 st.set_page_config(
     page_title="Veya Intelligent System", 
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Hide Streamlit's default header/menu/footer
-hide_streamlit_style = """
-<style>
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-header {visibility: hidden;}
-.stDeployButton {display:none;}
-div[data-testid="stToolbar"] {display: none;}
-.stApp > header {display: none;}
-</style>
-"""
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+# Model information
+MODEL_INFO = {
+    "llama-3.3-70b-versatile": {
+        "tokens": "70B parameters",
+        "speed": "Fast",
+        "description": "Versatile model for general tasks"
+    },
+    "mixtral-8x7b-32768": {
+        "tokens": "32K context",
+        "speed": "Very Fast",
+        "description": "Great for long context tasks"
+    },
+    "gpt-4o-mini": {
+        "tokens": "128K context",
+        "speed": "Fast",
+        "description": "OpenAI's efficient mini model"
+    }
+}
+
+# Example prompts
+EXAMPLE_PROMPTS = {
+    "📊 Business Analyst": {
+        "system": "You are an expert business analyst who provides data-driven insights and strategic recommendations.",
+        "query": "What are the key trends in the e-commerce industry for 2025?"
+    },
+    "💻 Code Helper": {
+        "system": "You are a senior software engineer who helps with coding problems and best practices.",
+        "query": "Explain how to implement a REST API using FastAPI with authentication."
+    },
+    "📰 News Summarizer": {
+        "system": "You are a news analyst who summarizes current events objectively and concisely.",
+        "query": "What are the latest developments in AI technology this week?"
+    },
+    "✍️ Content Writer": {
+        "system": "You are a creative content writer who crafts engaging and informative content.",
+        "query": "Write a compelling blog post introduction about sustainable living."
+    }
+}
 
 # --- Sidebar ---
 with st.sidebar:
@@ -34,6 +61,19 @@ with st.sidebar:
     else:
         selected_model = st.selectbox("OpenAI Models", ["gpt-4o-mini"])
 
+    # Model Info Card
+    if selected_model in MODEL_INFO:
+        info = MODEL_INFO[selected_model]
+        st.markdown(f"""
+        <div style="background: rgba(162, 89, 255, 0.1); padding: 12px; border-radius: 8px; margin-top: 10px; border-left: 3px solid #A259FF;">
+            <div style="font-size: 12px; opacity: 0.8;">MODEL INFO</div>
+            <div style="font-weight: 600; margin: 4px 0;">{info['tokens']}</div>
+            <div style="font-size: 13px; opacity: 0.9;">⚡ {info['speed']}</div>
+            <div style="font-size: 12px; opacity: 0.7; margin-top: 4px;">{info['description']}</div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("---")
     st.markdown("---")
     st.markdown("### 🧠 Veya Intelligent System")
     st.write("Seamlessly create, define, and interact with custom AI Agents powered by Groq or OpenAI.")
@@ -48,6 +88,8 @@ if theme == "Dark":
     input_bg = "#1E1E2F"
     border_color = "rgba(255,255,255,0.08)"
     label_color = "#E0E0E0"
+    example_bg = "#1E1E2F"
+    example_hover = "#2A2A3F"
 else:
     page_bg = "#F7F7F7"
     container_bg = "#FFFFFF"
@@ -57,24 +99,23 @@ else:
     input_bg = "#FFFFFF"
     border_color = "rgba(0,0,0,0.1)"
     label_color = "#333333"
+    example_bg = "#F8F9FA"
+    example_hover = "#E9ECEF"
 
 st.markdown(
     f"""
     <style>
-    /* Remove default padding and fix white bar */
     .block-container {{
         padding-top: 1rem !important;
         padding-bottom: 0rem !important;
         max-width: 1200px !important;
     }}
     
-    /* Root level backgrounds */
     html, body, [data-testid="stAppViewContainer"], .stApp {{
         background-color: {page_bg} !important;
         color: {text_color} !important;
     }}
     
-    /* Sidebar styling */
     [data-testid="stSidebar"] {{
         background-color: {container_bg} !important;
     }}
@@ -83,14 +124,12 @@ st.markdown(
         color: {text_color} !important;
     }}
     
-    /* Fix label visibility */
     .stTextArea label, .stTextInput label, .stSelectbox label, .stRadio label, .stCheckbox label {{
         color: {label_color} !important;
         font-weight: 500 !important;
         font-size: 15px !important;
     }}
     
-    /* Text areas and inputs */
     .stTextArea>div>div>textarea, .stTextInput>div>input {{
         background-color: {input_bg} !important;
         color: {text_color} !important;
@@ -104,19 +143,16 @@ st.markdown(
         opacity: 0.7 !important;
     }}
     
-    /* Select boxes */
     .stSelectbox>div>div {{
         background-color: {input_bg} !important;
         color: {text_color} !important;
         border: 1px solid {border_color} !important;
     }}
     
-    /* Radio buttons */
     .stRadio>div {{
         background-color: transparent !important;
     }}
     
-    /* Checkboxes */
     .stCheckbox {{
         background-color: transparent !important;
     }}
@@ -152,6 +188,37 @@ st.markdown(
         border: 1px solid {border_color} !important;
         box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
         line-height: 1.6 !important;
+        margin-bottom: 20px !important;
+    }}
+    
+    /* Example prompt card */
+    .example-card {{
+        background-color: {example_bg} !important;
+        border: 1px solid {border_color} !important;
+        border-radius: 10px !important;
+        padding: 15px !important;
+        cursor: pointer !important;
+        transition: all 0.3s ease !important;
+        margin-bottom: 10px !important;
+    }}
+    
+    .example-card:hover {{
+        background-color: {example_hover} !important;
+        border-color: #A259FF !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 12px rgba(162, 89, 255, 0.2) !important;
+    }}
+    
+    .example-title {{
+        color: {text_color} !important;
+        font-weight: 600 !important;
+        font-size: 15px !important;
+        margin-bottom: 6px !important;
+    }}
+    
+    .example-text {{
+        color: {muted} !important;
+        font-size: 13px !important;
     }}
     
     /* Header layout */
@@ -225,6 +292,19 @@ st.markdown(
         border-radius: 8px !important;
     }}
     
+    /* Expander styling */
+    .streamlit-expanderHeader {{
+        background-color: {card_bg} !important;
+        color: {text_color} !important;
+        border-radius: 8px !important;
+    }}
+    /* Fix expander header white background in dark mode */
+    details > summary {{
+        background-color: {card_bg} !important;
+        color: {text_color} !important;
+        border-radius: 10px !important;
+    }}
+
     /* Mobile responsiveness */
     @media (max-width: 720px) {{
         .veya-header {{
@@ -244,7 +324,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# --- Header with Robot Icon ---
+# --- Header Section---
 st.markdown(
     """
     <div class="veya-header">
@@ -259,30 +339,48 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+# --- Example Prompts Section ---
+with st.expander("✨ Try Example Prompts", expanded=False):
+    cols = st.columns(2)
+    for idx, (title, content) in enumerate(EXAMPLE_PROMPTS.items()):
+        with cols[idx % 2]:
+            if st.button(
+                f"{title}\n{content['query'][:50]}...",
+                key=f"example_{idx}",
+                use_container_width=True
+            ):
+                st.session_state.selected_example = content
+                st.rerun()
+
+if 'selected_example' in st.session_state:
+    system_prompt_default = st.session_state.selected_example['system']
+    query_default = st.session_state.selected_example['query']
+else:
+    system_prompt_default = ""
+    query_default = ""
+
 # --- Define Agent Section ---
 st.markdown('<div class="section-header">💬 Define your AI Agent</div>', unsafe_allow_html=True)
 system_prompt = st.text_area(
     "System Prompt",
+    value=system_prompt_default,
     height=100,
     placeholder="e.g., You are a helpful business analyst who provides data-driven insights...",
     label_visibility="collapsed"
 )
 
 allow_web_search = st.checkbox("🔍 Allow Web Search", help="Enable web search for real-time information")
-
-# Add some spacing
 st.markdown("<br>", unsafe_allow_html=True)
 
 # --- Chat Section ---
 st.markdown('<div class="section-header">🤖 Enter your Query</div>', unsafe_allow_html=True)
 user_query = st.text_area(
     "User Query",
+    value=query_default,
     height=150,
     placeholder="e.g., What are the current trends in AI technology?",
     label_visibility="collapsed"
 )
-
-# Center the button
 col1, col2, col3 = st.columns([1, 1, 1])
 with col2:
     ask_button = st.button("🚀 Ask Agent!", use_container_width=True)
@@ -309,7 +407,6 @@ if ask_button:
                     else:
                         st.markdown("<br>", unsafe_allow_html=True)
                         st.markdown("### ✨ Agent Response")
-                        # Handle both string and dict responses
                         response_text = data if isinstance(data, str) else str(data)
                         st.markdown(f'<div class="agent-response">{response_text}</div>', unsafe_allow_html=True)
                 else:
@@ -322,3 +419,4 @@ if ask_button:
                 st.error(f"❌ Unexpected error: {str(e)}")
     else:
         st.warning("⚠️ Please enter a query before asking the agent.")
+
