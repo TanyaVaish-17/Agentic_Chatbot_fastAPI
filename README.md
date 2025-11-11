@@ -1,7 +1,6 @@
 # 🎯 Veya - Intelligent Agentic AI Chatbot
 
 Veya is an intelligent AI chatbot system that lets you create and customize AI agents powered by Groq and OpenAI models, with integrated web search via Tavily for real-time information retrieval.
-## 📸 Screenshots
 
 <div align="center">
   <img src="images/black.png" alt="Dark Mode" width="700"/>
