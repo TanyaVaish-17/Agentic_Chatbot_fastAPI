@@ -328,7 +328,7 @@ st.markdown(
 st.markdown(
     """
     <div class="veya-header">
-        <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExY2x2YTh2cXl0eGhpdWU2cGF5NDNuMWUxdnRvdGs5eDRzNzRicXl1OSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/TcqEqZZ2KwSSDyy6BI/giphy.gif" alt="robot">
+        <img src="https://app.lottiefiles.com/share/37549512-3773-4bcb-9826-9cb81e325e6c" alt="robot">
         <div class="veya-title">
             <h1>Veya</h1>
             <p><strong>AI Chatbot Agents</strong></p>
