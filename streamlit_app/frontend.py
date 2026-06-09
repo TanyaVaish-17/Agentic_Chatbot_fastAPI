@@ -237,6 +237,7 @@ st.markdown(
         width: 140px;
         height: 140px;
         object-fit: contain;
+        mix-blend-mode: screen;
     }}
     
     .veya-title {{
