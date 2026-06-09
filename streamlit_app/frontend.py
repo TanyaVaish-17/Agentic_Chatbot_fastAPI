@@ -2,6 +2,8 @@ import streamlit as st
 import requests
 from datetime import datetime
 import json
+import base64
+from pathlib import Path
 
 st.set_page_config(
     page_title="Veya Intelligent System", 
@@ -324,15 +326,21 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+gif_path = Path(__file__).parent.parent / "images" / "robot.gif"
+
+with open(gif_path, "rb") as f:
+    gif_base64 = base64.b64encode(f.read()).decode()
 # --- Header Section---
 st.markdown(
-    """
+    f"""
     <div class="veya-header">
-        <img src="https://app.lottiefiles.com/share/37549512-3773-4bcb-9826-9cb81e325e6c" alt="robot">
+        <img src="data:image/gif;base64,{gif_base64}" />
         <div class="veya-title">
             <h1>Veya</h1>
-            <p><strong>AI Chatbot Agents</strong></p>
-            <p class="subtitle">Define. Create. Interact with your Intelligent Agents.</p>
+            <p>AI Chatbot Agents</p>
+            <div class="subtitle">
+                Define. Create. Interact with your Intelligent Agents.
+            </div>
         </div>
     </div>
     """,
