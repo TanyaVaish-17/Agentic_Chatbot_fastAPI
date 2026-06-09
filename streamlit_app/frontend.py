@@ -55,7 +55,7 @@ with st.sidebar:
     st.image("https://cdn-icons-png.flaticon.com/512/4712/4712109.png", width=120)
     st.markdown("### ⚙️ Settings")
 
-    theme = st.radio("Theme", ["Dark", "Light"], index=1)
+    theme = st.radio("Theme", ["Dark", "Light"], index=0)
 
     provider = st.selectbox("Model Provider", ["Groq", "OpenAI"])
     if provider == "Groq":
