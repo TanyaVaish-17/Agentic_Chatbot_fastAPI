@@ -322,36 +322,6 @@ st.markdown(
         }}
     }}
     
-    /* Hide Streamlit header */
-    header[data-testid="stHeader"] {{
-        display: none !important;
-    }}
-    /* Hide toolbar */
-    [data-testid="stToolbar"] {{
-        display: none !important;
-    }}
-    /* Hide deploy button */
-    [data-testid="stDecoration"] {{
-        display: none !important;
-    }}
-    /* Hide hamburger menu */
-    #MainMenu {{
-        visibility: hidden !important;
-    }}
-    /* Hide footer */
-    footer {{
-        visibility: hidden !important;
-    }}
-    /* Remove top spacing */
-    .block-container {{
-        padding-top: 0rem !important;
-    }}
-    /* Force dark background everywhere */
-    html, body, .stApp,
-    [data-testid="stAppViewContainer"],
-    [data-testid="stAppViewBlockContainer"] {{
-        background: #0E1117 !important;
-    }}
     </style>
     """,
     unsafe_allow_html=True,
